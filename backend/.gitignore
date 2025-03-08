@@ -1,0 +1,5 @@
+# Frontend files
+.venv
+*.srt
+*.mp3
+*.mp4
