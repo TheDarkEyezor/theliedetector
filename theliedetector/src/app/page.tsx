@@ -141,69 +141,85 @@ export default function Home() {
         </label>
       </div>
 
-      {videoSrc ? (
-        <div className="w-full max-w-3xl">
-          <div className="relative aspect-video bg-black rounded-lg overflow-hidden">
-            <video
-              ref={videoRef}
-              src={videoSrc}
-              className="w-full h-full"
-              onPlay={() => setIsPlaying(true)}
-              onPause={() => setIsPlaying(false)}
-              onTimeUpdate={handleTimeUpdate}
-              onLoadedMetadata={handleMetadataLoaded}
-            ></video>
-          </div>
+      {videoSrc && (
+        <div className="w-full max-w-6xl flex flex-col md:flex-row gap-6">
+          <div className="w-full md:w-3/5">
+            <div className="relative aspect-video bg-black rounded-lg overflow-hidden">
+              <video
+                ref={videoRef}
+                src={videoSrc}
+                className="w-full h-full"
+                onPlay={() => setIsPlaying(true)}
+                onPause={() => setIsPlaying(false)}
+                onTimeUpdate={handleTimeUpdate}
+                onLoadedMetadata={handleMetadataLoaded}
+              ></video>
+            </div>
 
-          {/* Video controls */}
-          <div className="mt-4 bg-gray-100 dark:bg-gray-800 p-4 rounded-lg">
-            <div className="flex flex-col mb-3">
-              {/* Seek bar */}
-              <input
-                type="range"
-                className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-gray-300 dark:bg-gray-600"
-                min="0"
-                max={duration || 100}
-                step="0.01"
-                value={currentTime}
-                onChange={handleSeek}
-              />
+            {/* Video controls */}
+            <div className="mt-4 bg-gray-100 dark:bg-gray-800 p-4 rounded-lg">
+              <div className="flex flex-col mb-3">
+                {/* Seek bar */}
+                <input
+                  type="range"
+                  className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-gray-300 dark:bg-gray-600"
+                  min="0"
+                  max={duration || 100}
+                  step="0.01"
+                  value={currentTime}
+                  onChange={handleSeek}
+                />
+                
+                {/* Duration counter */}
+                <div className="flex justify-between text-sm mt-1 text-gray-600 dark:text-gray-300">
+                  <span>{formatTime(currentTime)}</span>
+                  <span>{formatTime(duration)}</span>
+                </div>
+              </div>
               
-              {/* Duration counter */}
-              <div className="flex justify-between text-sm mt-1 text-gray-600 dark:text-gray-300">
-                <span>{formatTime(currentTime)}</span>
-                <span>{formatTime(duration)}</span>
+              <div className="flex justify-center items-center gap-4">
+                {/* Skip backward button */}
+                <button 
+                  className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600"
+                  onClick={skipBackward}
+                >
+                  -15s
+                </button>
+                
+                {/* Play/Pause button */}
+                <button 
+                  className="p-4 rounded-full bg-blue-500 hover:bg-blue-600 text-white"
+                  onClick={togglePlayPause}
+                >
+                  {isPlaying ? "Pause" : "Play"}
+                </button>
+                
+                {/* Skip forward button */}
+                <button 
+                  className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600"
+                  onClick={skipForward}
+                >
+                  +15s
+                </button>
               </div>
             </div>
-            
-            <div className="flex justify-center items-center gap-4">
-              {/* Skip backward button */}
-              <button 
-                className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600"
-                onClick={skipBackward}
-              >
-                -15s
-              </button>
-              
-              {/* Play/Pause button */}
-              <button 
-                className="p-4 rounded-full bg-blue-500 hover:bg-blue-600 text-white"
-                onClick={togglePlayPause}
-              >
-                {isPlaying ? "Pause" : "Play"}
-              </button>
-              
-              {/* Skip forward button */}
-              <button 
-                className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600"
-                onClick={skipForward}
-              >
-                +15s
-              </button>
+          </div>
+          
+          {/* Side panel */}
+          <div className="w-full md:w-2/5 bg-gray-100 dark:bg-gray-800 p-6 rounded-lg h-[500px] overflow-y-auto">
+            <h2 className="text-xl font-semibold mb-4">Analysis</h2>
+            <div className="space-y-4">
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget ultricies tincidunt, nisl nisl aliquam nisl, eget aliquam nisl nisl sit amet nisl.</p>
+              <p>Sed euismod, nisl eget ultricies tincidunt, nisl nisl aliquam nisl, eget aliquam nisl nisl sit amet nisl. Nullam auctor, nisl eget ultricies tincidunt, nisl nisl aliquam nisl, eget aliquam nisl nisl sit amet nisl.</p>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget ultricies tincidunt, nisl nisl aliquam nisl, eget aliquam nisl nisl sit amet nisl.</p>
+              <p>Sed euismod, nisl eget ultricies tincidunt, nisl nisl aliquam nisl, eget aliquam nisl nisl sit amet nisl. Nullam auctor, nisl eget ultricies tincidunt, nisl nisl aliquam nisl, eget aliquam nisl nisl sit amet nisl.</p>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget ultricies tincidunt, nisl nisl aliquam nisl, eget aliquam nisl nisl sit amet nisl.</p>
             </div>
           </div>
         </div>
-      ) : (
+      )}
+
+      {!videoSrc && (
         <div className="text-center p-8 bg-gray-50 dark:bg-gray-900 rounded-lg">
           <p>Upload a video to start playback</p>
         </div>
